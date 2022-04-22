@@ -35,7 +35,6 @@ export const geocode = async (
     throw error;
   }
 
-  console.log(data.results[0]);
   const { lat, lng } = data.results[0].geometry.location;
 
   res.status(200).send({ lat, lng });
