@@ -1,5 +1,10 @@
 interface WeatherInfo {
-  dt: Date;
+  date: {
+    month: string;
+    day_of_week: string;
+    day: number | string;
+    hour: number | string;
+  };
   temp: {
     actual: number;
     feels_like: number | null;
