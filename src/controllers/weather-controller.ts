@@ -21,44 +21,27 @@ export const getWeather = async (
       `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lng}&exclude=alerts,minutely&units=imperial&appid=${WEATHER_MAP_KEY}`
     );
     const data = response.data;
-    const weatherObj = {
-      date: {
-        month: '',
-        day_of_week: '',
-        day: '',
-        hour: ''
-      },
-      temp: {
-        actual: 0,
-        feels_like: 0,
-      },
-      wind: {
-        wind_deg: 0,
-        wind_speed: 0,
-        wind_gust: 0,
-      },
-      weather: {
-        main: "",
-        description: "",
-        icon: "",
-      },
-    };
+
     const weatherData = <WeatherData>{
-      current: weatherObj,
-      hourly: new Array(8).fill(weatherObj),
-      daily: new Array(6).fill(weatherObj),
+      current: {},
+      hourly: new Array(8),
+      daily: new Array(6),
     };
-    destructureWeather(data.current, weatherData, "current");
+
+    weatherData.current = destructureWeather(data.current, "current");
+
     for (let hour = 1; hour < 9; hour++) {
-      destructureWeather(data.hourly[hour], weatherData, "hourly", hour - 1);
+      weatherData.hourly[hour - 1] = destructureWeather(
+        data.hourly[hour],
+        "hourly"
+      );
     }
+
     for (let day = 1; day < 7; day++) {
-      destructureWeather(data.daily[day], weatherData, "daily", day - 1);
+      weatherData.daily[day - 1] = destructureWeather(data.daily[day], "daily");
     }
 
-    console.log(weatherData);
-
-    res.status(200).send({ message: "ok" });
+    res.status(200).send(weatherData);
   } catch (error) {
     const err = new HttpError("Weather request denied", 500);
     next(err);

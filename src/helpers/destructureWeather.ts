@@ -27,50 +27,28 @@ const DAYS = [
 
 export default function destructureWeather(
   inputData: any,
-  weatherObject: WeatherData,
   type: "current" | "hourly" | "daily",
-  index?: number
 ) {
   const { dt, temp, feels_like, wind_speed, wind_deg, wind_gust, weather } =
     inputData;
-
+  const { main, description, icon } = weather[0];
   const { month, day, dayOfWeek, hourTime } = getDateInfo(dt);
 
-  const { main, description, icon } = weather[0];
-  if (type === "current") {
-    console.log(dt);
-    weatherObject.current.date = {
-      month,
-      day_of_week: dayOfWeek,
-      day,
-      hour: hourTime,
-    };
-    weatherObject.current.temp = { actual: temp, feels_like };
-    weatherObject.current.wind = { wind_speed, wind_deg, wind_gust };
-    weatherObject.current.weather = { main, description, icon };
-  } else if (type === "hourly") {
-    const hour = weatherObject.hourly[index!];
-    hour.date = {
-      month,
-      day_of_week: dayOfWeek,
-      day,
-      hour: hourTime,
-    };
-    hour.temp = { actual: temp, feels_like };
-    hour.wind = { wind_speed, wind_deg, wind_gust };
-    hour.weather = { main, description, icon };
-  } else {
-    const daily = weatherObject.daily[index!];
-    daily.date = {
-      month,
-      day_of_week: dayOfWeek,
-      day,
-      hour: hourTime,
-    };
-    daily.temp = { actual: temp.max, feels_like: null };
-    daily.wind = { wind_speed, wind_deg, wind_gust: null };
-    daily.weather = { main, description, icon };
-  }
+  const date = { month, day_of_week: dayOfWeek, day, hour: hourTime };
+
+  const temperature =
+    type === "daily"
+      ? { actual: temp.max, feels_like: null }
+      : { actual: temp, feels_like };
+
+  const wind =
+    type === "hourly"
+      ? { wind_speed, wind_deg, wind_gust }
+      : { wind_speed, wind_deg, wind_gust: null };
+
+  const weatherInfo = { main, description, icon };
+
+  return { date, temperature, wind, weatherInfo };
 }
 
 function getDateInfo(utcDate: number) {

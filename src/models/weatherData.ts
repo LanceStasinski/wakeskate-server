@@ -5,7 +5,7 @@ interface WeatherInfo {
     day: number | string;
     hour: number | string;
   };
-  temp: {
+  temperature: {
     actual: number;
     feels_like: number | null;
   };
@@ -14,7 +14,7 @@ interface WeatherInfo {
     wind_speed: number;
     wind_gust: number | null;
   };
-  weather: {
+  weatherInfo: {
     main: string;
     description: string;
     icon: string;
@@ -23,6 +23,6 @@ interface WeatherInfo {
 
 export interface WeatherData {
   current: WeatherInfo;
-  hourly: [WeatherInfo];
-  daily: [WeatherInfo];
+  hourly: WeatherInfo[];
+  daily: WeatherInfo[];
 }
