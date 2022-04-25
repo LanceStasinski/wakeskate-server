@@ -1,4 +1,4 @@
-import { WeatherData } from "../models/weatherData";
+import rateConditions from "./rateConditions";
 
 const MONTHS = [
   "January",
@@ -27,12 +27,12 @@ const DAYS = [
 
 export default function destructureWeather(
   inputData: any,
-  type: "current" | "hourly" | "daily",
+  type: "current" | "hourly" | "daily"
 ) {
   const { dt, temp, feels_like, wind_speed, wind_deg, wind_gust, weather } =
     inputData;
   const { main, description, icon } = weather[0];
-  const { month, day, dayOfWeek, hourTime } = getDateInfo(dt);
+  const { month, day, dayOfWeek, hourTime, dayOfYear } = getDateInfo(dt);
 
   const date = { month, day_of_week: dayOfWeek, day, hour: hourTime };
 
@@ -48,7 +48,9 @@ export default function destructureWeather(
 
   const weatherInfo = { main, description, icon };
 
-  return { date, temperature, wind, weatherInfo };
+  const rating = rateConditions(temp, wind_speed, main, dayOfYear);
+  
+  return { date, temperature, wind, weatherInfo, rating };
 }
 
 function getDateInfo(utcDate: number) {
@@ -57,5 +59,12 @@ function getDateInfo(utcDate: number) {
   const day = date.getDate();
   const dayOfWeek = DAYS[date.getDay()];
   const hourTime = date.getHours();
-  return { month, day, dayOfWeek, hourTime };
+  const dayOfYear =
+    (Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) -
+      Date.UTC(date.getFullYear(), 0, 0)) /
+    24 /
+    60 /
+    60 /
+    1000;
+  return { month, day, dayOfWeek, hourTime, dayOfYear };
 }

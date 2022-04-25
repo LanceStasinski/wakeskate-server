@@ -19,6 +19,7 @@ interface WeatherInfo {
     description: string;
     icon: string;
   };
+  rating: string;
 }
 
 export interface WeatherData {

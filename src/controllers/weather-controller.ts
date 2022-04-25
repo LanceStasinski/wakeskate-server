@@ -40,7 +40,6 @@ export const getWeather = async (
     for (let day = 1; day < 7; day++) {
       weatherData.daily[day - 1] = destructureWeather(data.daily[day], "daily");
     }
-
     res.status(200).send(weatherData);
   } catch (error) {
     const err = new HttpError("Weather request denied", 500);
