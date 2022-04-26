@@ -1,9 +1,12 @@
 interface WeatherInfo {
   date: {
+    time: string;
+    datetime: string;
     month: string;
     day_of_week: string;
     day: number | string;
     hour: number | string;
+    minutes: number | string;
   };
   temperature: {
     actual: number;

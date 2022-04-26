@@ -32,9 +32,26 @@ export default function destructureWeather(
   const { dt, temp, feels_like, wind_speed, wind_deg, wind_gust, weather } =
     inputData;
   const { main, description, icon } = weather[0];
-  const { month, day, dayOfWeek, hourTime, dayOfYear } = getDateInfo(dt);
+  const {
+    month,
+    day,
+    dayOfWeek,
+    hourTime,
+    dayOfYear,
+    datetime,
+    time,
+    minutes,
+  } = getDateInfo(dt);
 
-  const date = { month, day_of_week: dayOfWeek, day, hour: hourTime };
+  const date = {
+    month,
+    day_of_week: dayOfWeek,
+    day,
+    hour: hourTime,
+    datetime,
+    time,
+    minutes,
+  };
 
   const temperature =
     type === "daily"
@@ -49,7 +66,7 @@ export default function destructureWeather(
   const weatherInfo = { main, description, icon };
 
   const rating = rateConditions(temp, wind_speed, main, dayOfYear);
-  
+
   return { date, temperature, wind, weatherInfo, rating };
 }
 
@@ -59,6 +76,11 @@ function getDateInfo(utcDate: number) {
   const day = date.getDate();
   const dayOfWeek = DAYS[date.getDay()];
   const hourTime = date.getHours();
+  const hourMilitary =
+    date.getHours() < 10 ? `0${date.getHours()}` : `${date.getHours()}`;
+  const minutes =
+    date.getMinutes() < 10 ? `0${date.getMinutes()}` : `${date.getMinutes()}`;
+
   const dayOfYear =
     (Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) -
       Date.UTC(date.getFullYear(), 0, 0)) /
@@ -66,5 +88,18 @@ function getDateInfo(utcDate: number) {
     60 /
     60 /
     1000;
-  return { month, day, dayOfWeek, hourTime, dayOfYear };
+  const time = `${hourTime}:${minutes}`;
+  const datetime = `${date.getFullYear()}-${
+    date.getMonth() + 1
+  }-${date.getDate()} ${hourMilitary}:${minutes}`;
+  return {
+    month,
+    day,
+    dayOfWeek,
+    hourTime,
+    dayOfYear,
+    datetime,
+    time,
+    minutes,
+  };
 }
