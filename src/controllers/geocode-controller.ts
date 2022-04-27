@@ -17,25 +17,33 @@ export const geocode = async (
     return next(new HttpError("Please search for a location.", 422));
   }
 
-  const { location } = req.body;
+  try {
+    const { location } = req.body;
 
-  const response = await axios.get(
-    `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
-      location
-    )}&key=${GOOGLE_API_KEY}`
-  );
+    const response = await axios.get(
+      `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
+        location
+      )}&key=${GOOGLE_API_KEY}`
+    );
 
-  const data: any = response.data;
+    const data: any = response.data;
 
-  if (!data || data.status === "Zero_RESULTS") {
-    const error = new HttpError(
-      "Could not find location for specified address",
+    if (!data || data.status === "Zero_RESULTS") {
+      const error = new HttpError(
+        "Could not find location for specified address",
+        422
+      );
+      next(error);
+    }
+
+    const { lat, lng } = data.results[0].geometry.location;
+
+    res.status(200).send({ lat, lng });
+  } catch (error) {
+    const err = new HttpError(
+      "Could not connect to Google API",
       422
     );
-    throw error;
+    next(err);
   }
-
-  const { lat, lng } = data.results[0].geometry.location;
-
-  res.status(200).send({ lat, lng });
 };
