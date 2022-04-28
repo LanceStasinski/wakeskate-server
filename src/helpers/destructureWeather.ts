@@ -73,6 +73,8 @@ export default function destructureWeather(
 function getDateInfo(utcDate: number) {
   const date = new Date(utcDate * 1000);
   const month = MONTHS[date.getMonth()];
+  const dateTimeMonth =
+    date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : `${date.getMonth()}`;
   const day = date.getDate();
   const dayOfWeek = DAYS[date.getDay()];
   const hourTime = date.getHours();
@@ -90,7 +92,7 @@ function getDateInfo(utcDate: number) {
     1000;
   const time = `${hourTime}:${minutes}`;
   const datetime = `${date.getFullYear()}-${
-    date.getMonth() + 1
+    dateTimeMonth
   }-${date.getDate()} ${hourMilitary}:${minutes}`;
   return {
     month,
