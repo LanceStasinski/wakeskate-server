@@ -65,7 +65,7 @@ export default function destructureWeather(
 
   const weatherInfo = { main, description, icon };
 
-  const rating = rateConditions(temp, wind_speed, main, dayOfYear);
+  const rating = rateConditions(temperature.actual, wind_speed, main, dayOfYear);
 
   return { date, temperature, wind, weatherInfo, rating };
 }
