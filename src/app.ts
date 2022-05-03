@@ -1,4 +1,5 @@
 import dotenv from "dotenv";
+import path from "path";
 import cors from "cors";
 import bodyParser from "body-parser";
 import express, { Request, Response, NextFunction } from "express";
@@ -13,6 +14,8 @@ const PORT = process.env.PORT;
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
+
+app.use(express.static(path.resolve(__dirname, "./public/dist")));
 
 app.use("/api/geocode", geocodeRoute);
 app.use("/api/weather", weatherRoute);
