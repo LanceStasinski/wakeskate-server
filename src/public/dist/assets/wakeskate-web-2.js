@@ -1030,7 +1030,7 @@
       const {
         weatherInfo
       } = this.getCurrentInfo();
-      const icon = `http://openweathermap.org/img/wn/${weatherInfo.icon}@2x.png`;
+      const icon = `https://openweathermap.org/img/wn/${weatherInfo.icon}@2x.png`;
       const alt = weatherInfo.main;
       const weatherString = weatherInfo.description;
       const description = weatherString.charAt(0).toUpperCase() + weatherString.slice(1);
@@ -1177,7 +1177,7 @@
       const icon = this.args.day.weatherInfo.icon;
       const alt = this.args.day.weatherInfo.description;
       return {
-        weatherIcon: `http://openweathermap.org/img/wn/${icon}@2x.png`,
+        weatherIcon: `https://openweathermap.org/img/wn/${icon}@2x.png`,
         alt
       };
     }
@@ -1320,7 +1320,7 @@
       const icon = this.args.hour.weatherInfo.icon;
       const alt = this.args.hour.weatherInfo.description;
       return {
-        weatherIcon: `http://openweathermap.org/img/wn/${icon}@2x.png`,
+        weatherIcon: `https://openweathermap.org/img/wn/${icon}@2x.png`,
         alt
       };
     }
