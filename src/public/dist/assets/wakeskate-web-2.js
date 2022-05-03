@@ -450,7 +450,7 @@
       const data = {
         location: this.query
       };
-      const response = await (0, _fetch.default)(`${_environment.default.REST_API}/geocode/`, {
+      const response = await (0, _fetch.default)(`api/geocode/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -476,7 +476,7 @@
         lng: coordinates.lng,
         address: this.location.address
       }));
-      const response = await (0, _fetch.default)(`${_environment.default.REST_API}/weather`, {
+      const response = await (0, _fetch.default)(`api/weather`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -489,7 +489,6 @@
         lat: this.lat,
         lng: this.lng
       };
-      console.log(this.location.weather);
       close();
     }
 
@@ -1596,7 +1595,7 @@
           lat,
           lng
         } = locationInfo;
-        const response = await (0, _fetch.default)(`${_environment.default.REST_API}/weather`, {
+        const response = await (0, _fetch.default)(`api/weather`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
