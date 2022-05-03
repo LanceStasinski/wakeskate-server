@@ -77,7 +77,7 @@ function getDateInfo(utcDate: number) {
     date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : `${date.getMonth()}`;
   const day = date.getDate();
   const dayOfWeek = DAYS[date.getDay()];
-  const hourTime = date.getHours() < 4 ? date.getHours() + 8 : date.getHours() - 4;
+  const hourTime = date.getHours() < 4 ? date.getHours() + 20 : date.getHours() - 4;
   const hourMilitary =
     hourTime < 10 ? `0${hourTime}` : `${hourTime}`;
   const minutes =
